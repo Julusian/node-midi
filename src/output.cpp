@@ -44,7 +44,10 @@ NodeMidiOutput::NodeMidiOutput(const Napi::CallbackInfo &info) : Napi::ObjectWra
 
 NodeMidiOutput::~NodeMidiOutput()
 {
-    handle->closePort();
+    if (handle)
+    {
+        handle->closePort();
+    }
 }
 
 Napi::Value NodeMidiOutput::GetPortCount(const Napi::CallbackInfo &info)
