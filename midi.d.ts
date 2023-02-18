@@ -7,7 +7,7 @@ import * as EventEmitter from 'events';
  * An array of numbers corresponding to the MIDI bytes: [status, data1, data2].
  * See https://www.cs.cf.ac.uk/Dave/Multimedia/node158.html for more info.
  */
-export type MidiMessage = [number, number, number];
+export type MidiMessage = number[];
 export type MidiCallback = (deltaTime: number, message: MidiMessage) => void;
 
 export class Input extends EventEmitter {
