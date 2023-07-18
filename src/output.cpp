@@ -48,6 +48,7 @@ NodeMidiOutput::~NodeMidiOutput()
     {
         handle->closePort();
     }
+    handle.reset();
 }
 
 Napi::Value NodeMidiOutput::GetPortCount(const Napi::CallbackInfo &info)
@@ -172,6 +173,7 @@ Napi::Value NodeMidiOutput::ClosePort(const Napi::CallbackInfo &info)
     }
 
     handle->closePort();
+    handle.reset();
     return env.Null();
 }
 

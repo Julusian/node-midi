@@ -97,6 +97,7 @@ void NodeMidiInput::cleanup()
             handleMessage.Abort();
             handleMessage.Release();
         }
+        handle.reset();
     }
 }
 
