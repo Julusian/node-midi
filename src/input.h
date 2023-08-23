@@ -26,7 +26,7 @@ private:
     bool configured = false;
 
     void setupCallback(const Napi::Env &env);
-    void cleanup();
+    void closePortAndRemoveCallback();
 
 public:
     static std::unique_ptr<Napi::FunctionReference>
@@ -43,6 +43,7 @@ public:
     Napi::Value OpenPort(const Napi::CallbackInfo &info);
     Napi::Value OpenVirtualPort(const Napi::CallbackInfo &info);
     Napi::Value ClosePort(const Napi::CallbackInfo &info);
+    Napi::Value Destroy(const Napi::CallbackInfo &info);
     Napi::Value IsPortOpen(const Napi::CallbackInfo &info);
 
     Napi::Value IgnoreTypes(const Napi::CallbackInfo &info);

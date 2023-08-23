@@ -15,6 +15,7 @@ std::unique_ptr<Napi::FunctionReference> NodeMidiOutput::Init(const Napi::Env &e
                                                                  InstanceMethod<&NodeMidiOutput::OpenPort>("openPort", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
                                                                  InstanceMethod<&NodeMidiOutput::OpenVirtualPort>("openVirtualPort", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
                                                                  InstanceMethod<&NodeMidiOutput::ClosePort>("closePort", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+                                                                 InstanceMethod<&NodeMidiOutput::Destroy>("destroy", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
                                                                  InstanceMethod<&NodeMidiOutput::IsPortOpen>("isPortOpen", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
 
                                                                  InstanceMethod<&NodeMidiOutput::Send>("sendMessage", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
@@ -47,6 +48,7 @@ NodeMidiOutput::~NodeMidiOutput()
     if (handle)
     {
         handle->closePort();
+        handle.reset();
     }
 }
 
@@ -172,6 +174,22 @@ Napi::Value NodeMidiOutput::ClosePort(const Napi::CallbackInfo &info)
     }
 
     handle->closePort();
+    return env.Null();
+}
+
+Napi::Value NodeMidiOutput::Destroy(const Napi::CallbackInfo &info)
+{
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if (!handle)
+    {
+        return env.Null();
+    }
+
+    handle->closePort();
+    handle.reset();
+
     return env.Null();
 }
 

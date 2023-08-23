@@ -19,6 +19,9 @@ class Input extends EventEmitter {
   closePort() {
     return this.input.closePort()
   }
+  destroy() {
+    return this.input.destroy()
+  }
   getPortCount() {
     return this.input.getPortCount()
   }
@@ -46,6 +49,9 @@ class Output {
 
   closePort() {
     return this.output.closePort()
+  }
+  destroy() {
+    return this.output.destroy()
   }
   getPortCount() {
     return this.output.getPortCount()

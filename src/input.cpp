@@ -19,6 +19,7 @@ std::unique_ptr<Napi::FunctionReference> NodeMidiInput::Init(const Napi::Env &en
                                                                 InstanceMethod<&NodeMidiInput::OpenPort>("openPort", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
                                                                 InstanceMethod<&NodeMidiInput::OpenVirtualPort>("openVirtualPort", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
                                                                 InstanceMethod<&NodeMidiInput::ClosePort>("closePort", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+                                                                InstanceMethod<&NodeMidiInput::Destroy>("destroy", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
                                                                 InstanceMethod<&NodeMidiInput::IsPortOpen>("isPortOpen", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
 
                                                                 InstanceMethod<&NodeMidiInput::IgnoreTypes>("ignoreTypes", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
@@ -58,7 +59,8 @@ NodeMidiInput::NodeMidiInput(const Napi::CallbackInfo &info) : Napi::ObjectWrap<
 
 NodeMidiInput::~NodeMidiInput()
 {
-    cleanup();
+    closePortAndRemoveCallback();
+    handle.reset();
 }
 
 void NodeMidiInput::setupCallback(const Napi::Env &env)
@@ -76,14 +78,14 @@ void NodeMidiInput::setupCallback(const Napi::Env &env)
             this,
             [](Napi::Env, void *, NodeMidiInput *ctx) { // Finalizer used to clean threads up
                 // This TSFN can be destroyed when the worker_thread is destroyed, well before the NodeMidiInput is.
-                ctx->cleanup();
+                ctx->closePortAndRemoveCallback();
             });
 
         handle->setCallback(&NodeMidiInput::Callback, this);
     }
 }
 
-void NodeMidiInput::cleanup()
+void NodeMidiInput::closePortAndRemoveCallback()
 {
     if (handle != nullptr)
     {
@@ -260,7 +262,23 @@ Napi::Value NodeMidiInput::ClosePort(const Napi::CallbackInfo &info)
         return env.Null();
     }
 
-    cleanup();
+    closePortAndRemoveCallback();
+    return env.Null();
+}
+
+Napi::Value NodeMidiInput::Destroy(const Napi::CallbackInfo &info)
+{
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if (!handle)
+    {
+        return env.Null();
+    }
+
+    closePortAndRemoveCallback();
+    handle.reset();
+
     return env.Null();
 }
 

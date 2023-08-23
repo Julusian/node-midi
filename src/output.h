@@ -22,6 +22,7 @@ public:
     Napi::Value OpenPort(const Napi::CallbackInfo &info);
     Napi::Value OpenVirtualPort(const Napi::CallbackInfo &info);
     Napi::Value ClosePort(const Napi::CallbackInfo &info);
+    Napi::Value Destroy(const Napi::CallbackInfo &info);
     Napi::Value IsPortOpen(const Napi::CallbackInfo &info);
 
     Napi::Value Send(const Napi::CallbackInfo &info);
