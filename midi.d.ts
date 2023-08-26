@@ -1,7 +1,7 @@
 /// <reference types="node" />
 
-import * as Stream from 'stream';
-import * as EventEmitter from 'events';
+import { Stream } from 'stream';
+import { EventEmitter } from 'events';
 
 /**
  * An array of numbers corresponding to the MIDI bytes: [status, data1, data2].
