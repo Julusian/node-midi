@@ -24,7 +24,7 @@ __metadata:
   resolution: "@julusian/midi@workspace:."
   dependencies:
     mocha: "npm:^10.4.0"
-    node-addon-api: "npm:^6.1.0"
+    node-addon-api: "npm:^8.0.0"
     node-gyp: "npm:^10.1.0"
     pkg-prebuilds: "npm:^1.0.0"
     should: "npm:^13.2.3"
@@ -936,12 +936,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-addon-api@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "node-addon-api@npm:6.1.0"
+"node-addon-api@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "node-addon-api@npm:8.0.0"
   dependencies:
     node-gyp: "npm:latest"
-  checksum: 10c0/d2699c4ad15740fd31482a3b6fca789af7723ab9d393adc6ac45250faaee72edad8f0b10b2b9d087df0de93f1bdc16d97afdd179b26b9ebc9ed68b569faa4bac
+  checksum: 10c0/20eb231362cc07c62d9839164473744d985be5d82685214f3750d990d9f61ef366e0ba112a766c925d640ed29b2a500b83568e895dc2444dcd5db01e615aac2b
   languageName: node
   linkType: hard
 
