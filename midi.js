@@ -7,6 +7,13 @@ const Stream = require('stream');
 // MIDI input inherits from EventEmitter
 const { EventEmitter } = require('events');
 
+// Bring in the set of constants to reflect MIDI messages and their
+// parameters, to eliminate the need for magic numbers.
+const gm  = require('./gm');
+const gmdrums  = require('./gmdrums');
+const notes  = require('./notes');
+const msg = require('./msg');
+
 class Input extends EventEmitter {
   constructor() {
     super()
@@ -150,6 +157,11 @@ function createWriteStream(output) {
 module.exports = {
   Input,
   Output,
+
+  gm,
+  gmdrums,
+  notes,
+  msg,
 
   createReadStream,
   createWriteStream,
