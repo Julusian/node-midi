@@ -1,6 +1,6 @@
 {
   "name": "@julusian/midi",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "scripts": {
     "install": "pkg-prebuilds-verify ./binding-options.js || node-gyp rebuild",
     "build": "node-gyp build",
@@ -54,7 +54,7 @@
     "pkg-prebuilds": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^10.4.0",
+    "mocha": "^10.5.2",
     "node-gyp": "^10.1.0",
     "should": "^13.2.3"
   },
@@ -72,5 +72,5 @@
     "vendor/rtmidi/RtMidi.h",
     "prebuilds/"
   ],
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.3.1"
 }

@@ -1,5 +1,9 @@
 # node-midi Changelog
 
+## Version 3.4.0
+
+- Add windows-arm64 build
+
 ## Version 3.3.0
 
 - Add `setBufferSize` method [#18](https://github.com/Julusian/node-midi/pull/18) [#15](https://github.com/Julusian/node-midi/issues/15)
