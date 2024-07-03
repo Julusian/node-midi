@@ -9,7 +9,7 @@ module.exports = {
     SET_PARAMETER:      0xb0,		/* [ param number (CC), setting ] */
     SET_PROGRAM:        0xc0,		/* [ program ] */
     CHANGE_PRESSURE:    0xd0,		/* [ pressure (after touch) ] */
-    SET_PITCHWHEEL:     0xe0,		/* [ LSB,  MSG (two 7 bit values) ] */
+    SET_PITCHWHEEL:     0xe0,		/* [ LSB,  MSB (two 7 bit values) ] */
     
     METAEVENT:          0xff,
     SYS_EX1:            0xf0,

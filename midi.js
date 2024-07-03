@@ -9,10 +9,10 @@ const { EventEmitter } = require('events');
 
 // Bring in the set of constants to reflect MIDI messages and their
 // parameters, to eliminate the need for magic numbers.
-const gm  = require('./gm');
-const gmdrums  = require('./gmdrums');
-const notes  = require('./notes');
-const msg = require('./msg');
+const Instruments = require('./instruments');
+const Drums = require('./drums');
+const Notes = require('./notes');
+const Messages = require('./messages');
 
 class Input extends EventEmitter {
   constructor() {
@@ -158,13 +158,15 @@ module.exports = {
   Input,
   Output,
 
-  gm,
-  gmdrums,
-  notes,
-  msg,
-
   createReadStream,
   createWriteStream,
+
+  Constants: {
+    Instruments,
+    Drums,
+    Notes,
+    Messages,
+  },
   
   // Backwards compatibility.
   input: Input,
