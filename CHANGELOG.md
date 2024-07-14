@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.2](https://github.com/Julusian/node-midi/compare/v3.5.1...v3.5.2) (2024-07-14)
+
+
+### Bug Fixes
+
+* repository url ([26e6126](https://github.com/Julusian/node-midi/commit/26e61268c9071e520c3e5bf39d28669114569f1d))
+
 ## [3.5.1](https://github.com/Julusian/node-midi/compare/v3.5.0...v3.5.1) (2024-07-14)
 
 
