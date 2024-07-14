@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.1](https://github.com/Julusian/node-midi/compare/v3.5.0...v3.5.1) (2024-07-14)
+
+
+### Bug Fixes
+
+* publish flow ([366a917](https://github.com/Julusian/node-midi/commit/366a917d83a360941eebb87f2919f1534d0cc2b9))
+
 ## [3.5.0](https://github.com/Julusian/node-midi/compare/v3.4.0...v3.5.0) (2024-07-14)
 
 
