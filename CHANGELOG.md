@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.3](https://github.com/Julusian/node-midi/compare/v3.5.2...v3.5.3) (2024-07-14)
+
+
+### Bug Fixes
+
+* missing js files in package ([412d124](https://github.com/Julusian/node-midi/commit/412d124a5e2c98a9eb86aaeb90b99925176aa511))
+
 ## [3.5.2](https://github.com/Julusian/node-midi/compare/v3.5.1...v3.5.2) (2024-07-14)
 
 
