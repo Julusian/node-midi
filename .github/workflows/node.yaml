@@ -1,4 +1,4 @@
-name: Prebuild
+name: Build and publish
 
 on:
   push:
@@ -238,6 +238,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: all-prebuilds
+          path: prebuilds
       - name: Publish to NPM
         if: ${{ steps.do-publish.outputs.tag }}
         run: |
