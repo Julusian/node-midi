@@ -1,4 +1,13 @@
-# node-midi Changelog
+# Changelog
+
+## [3.5.0](https://github.com/Julusian/node-midi/compare/v3.4.0...v3.5.0) (2024-07-14)
+
+
+### Features
+
+* Add MIDI constants ([#26](https://github.com/Julusian/node-midi/issues/26)) ([886ea29](https://github.com/Julusian/node-midi/commit/886ea290532640be32e9e4e210ffe62a964923a9))
+
+## node-midi Changelog
 
 ## Version 3.5.0
 
