@@ -222,13 +222,17 @@ jobs:
             fi
 
           fi
+
+      - name: Install Linux dependencies
+        if: ${{ steps.do-publish.outputs.tag }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev
       - name: Prepare build
         if: ${{ steps.do-publish.outputs.tag }}
         run: |
           corepack enable
           yarn install
-          yarn build
-          rm -R build
         env:
           CI: true
       - uses: actions/download-artifact@v4
