@@ -228,14 +228,18 @@ jobs:
           corepack enable
           yarn install
           yarn build
+          rm -R build
         env:
           CI: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: all-prebuilds
       - name: Publish to NPM
         if: ${{ steps.do-publish.outputs.tag }}
         run: |
           npm set "//registry.npmjs.org/:_authToken" "$NPM_AUTH_TOKEN"
 
-          npm publish --access=public --tag ${{ steps.do-publish.outputs.tag }} --provenance
+          npm publish --access=public --tag ${{ steps.do-publish.outputs.tag }} --provenance --dry-run
 
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "**Published:** $NEW_VERSION" >> $GITHUB_STEP_SUMMARY
