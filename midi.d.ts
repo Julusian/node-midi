@@ -32,6 +32,8 @@ export class Input extends EventEmitter {
     ignoreTypes(sysex: boolean, timing: boolean, activeSensing: boolean): void;
     /** Open the specified input port */
     openPort(port: number): void;
+    /** Open the specified input port */
+    openPortByName(name: string): void;
     /**
      * Instead of opening a connection to an existing MIDI device, on Mac OS X
      * and Linux with ALSA you can create a virtual device that other software
@@ -64,6 +66,8 @@ export class Output {
     isPortOpen(): boolean
     /** Open the specified output port */
     openPort(port: number): void;
+    /** Open the specified output port */
+    openPortByName(name: string): void;
     /**
      * Instead of opening a connection to an existing MIDI device, on Mac OS X
      * and Linux with ALSA you can create a virtual device that other software
