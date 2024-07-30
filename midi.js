@@ -48,6 +48,14 @@ class Input extends EventEmitter {
   openPort(port) {
     return this.input.openPort(port)
   }
+  openPortByName(name) {
+    for(let port=0; port<this.input.getPortCount(); ++port) {
+      if (name === this.input.getPortName(port)) {
+        return this.input.openPort(port);
+      }
+    }
+    return undefined;
+  }
   openVirtualPort(port) {
     return this.input.openVirtualPort(port)
   }
@@ -78,6 +86,14 @@ class Output {
   }
   openPort(port) {
     return this.output.openPort(port)
+  }
+  openPortByName(name) {
+    for(let port=0; port<this.output.getPortCount(); ++port) {
+      if (name === this.output.getPortName(port)) {
+        return this.output.openPort(port);
+      }
+    }
+    return undefined;
   }
   openVirtualPort(port) {
     return this.output.openVirtualPort(port)
