@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.1](https://github.com/Julusian/node-midi/compare/v3.6.0...v3.6.1) (2024-08-09)
+
+
+### Bug Fixes
+
+* run ci for tags ([4673806](https://github.com/Julusian/node-midi/commit/46738060100a2cffb235d8cae14089b8c25ee1e6))
+
 ## [3.6.0](https://github.com/Julusian/node-midi/compare/v3.5.3...v3.6.0) (2024-08-09)
 
 
