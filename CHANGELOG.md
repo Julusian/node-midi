@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.6.0](https://github.com/Julusian/node-midi/compare/v3.5.3...v3.6.0) (2024-08-09)
+
+
+### Features
+
+* Add openPortByName methods for input and output ports ([#32](https://github.com/Julusian/node-midi/issues/32)) ([b0219ea](https://github.com/Julusian/node-midi/commit/b0219ea4cd1aa4fc1fc995239aef8175f6e7066a))
+
+
+### Bug Fixes
+
+* note constants ([#31](https://github.com/Julusian/node-midi/issues/31)) ([c1d16f5](https://github.com/Julusian/node-midi/commit/c1d16f52ed92f21819e8a7923095df2f3170980b))
+
 ## [3.5.3](https://github.com/Julusian/node-midi/compare/v3.5.2...v3.5.3) (2024-07-14)
 
 
