@@ -74,7 +74,7 @@ jobs:
             libc: musl
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Checkout submodules
         shell: bash
         run: |
@@ -193,7 +193,7 @@ jobs:
     if: contains(github.ref, 'refs/tags/')
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Checkout submodules
