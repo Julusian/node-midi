@@ -89,7 +89,7 @@ jobs:
           sudo apt-get install -y libasound2-dev
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version || '18.x' }}
 
@@ -204,7 +204,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 18.x
       - name: Check release is desired
