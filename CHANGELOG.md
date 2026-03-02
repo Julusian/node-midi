@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.7.0](https://github.com/Julusian/node-midi/compare/v3.6.1...v3.7.0) (2026-03-02)
+
+
+### Features
+
+* add event with raw message buffer ([3f1dbd7](https://github.com/Julusian/node-midi/commit/3f1dbd7cdec8cb56d9437425b1df47d31c50f5e9))
+* add methods to get all port names ([5c37908](https://github.com/Julusian/node-midi/commit/5c37908f1f8e3ec7cc5ce5eb78d66525534040f3))
+* convert to typescript ([f119787](https://github.com/Julusian/node-midi/commit/f119787dd276410b5410893b135e600458ff36ca))
+
+
+### Bug Fixes
+
+* node14 compatibility ([69a906a](https://github.com/Julusian/node-midi/commit/69a906a1c08ebe2f218b9a635e49bb81515c5dbc))
+* reimplement createReadStream and createWriteStream in simpler syntax ([892dd9e](https://github.com/Julusian/node-midi/commit/892dd9e0f7fd937ac0852e16d09d5647fc6ae523))
+
 ## [3.6.1](https://github.com/Julusian/node-midi/compare/v3.6.0...v3.6.1) (2024-08-09)
 
 
