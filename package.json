@@ -1,6 +1,6 @@
 {
   "name": "@julusian/midi",
-  "version": "3.6.1",
+  "version": "3.7.0",
   "scripts": {
     "prepare": "husky",
     "lint:raw": "eslint",
