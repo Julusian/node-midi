@@ -108,6 +108,18 @@ jobs:
           CI: true
           npm_config_build_from_source: true
 
+      # For the docker (cross-arch) builds, install dependencies natively on the
+      # amd64 host rather than inside the emulated container. The dependency tree
+      # is arch-neutral JS/headers, and unpacking it under QEMU - especially the
+      # 32-bit arm/v7 target - OOMs yarn. --mode=skip-build skips the native
+      # compile here; the container below compiles for its architecture.
+      - name: Install dependencies (host)
+        if: matrix.docker-arch
+        shell: bash
+        run: |
+          corepack enable
+          yarn install --mode=skip-build
+
       - name: Login to Docker Hub
         uses: docker/login-action@v4
         if: ${{ matrix.docker-arch && env.dockerhub_username != '' }}
@@ -128,7 +140,13 @@ jobs:
         with:
           image: ${{ matrix.docker-image }}
           # shell: bash
-          options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
+          options: >-
+            --platform=${{ matrix.docker-arch }}
+            -v ${{ github.workspace }}:/work
+            -e CI=1
+            -e npm_config_build_from_source=1
+            -e NAPI_VERSION
+            -e BINDING_NAME
           run: |
             if command -v apt-get &> /dev/null
             then
@@ -147,12 +165,11 @@ jobs:
 
             cd /work
 
-            corepack enable
+            # node_modules was installed on the host and mounted in; only compile
+            # the addon for this architecture (the container's node is this arch).
+            node_modules/.bin/node-gyp rebuild
 
-            yarn
-            # yarn test
-
-            yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
+            node_modules/.bin/pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
