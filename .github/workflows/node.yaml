@@ -199,7 +199,9 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libasound2-dev
+          # The azure runner kernel ships no sound modules; the ALSA ones live
+          # in the version-matched linux-modules-extra package.
+          sudo apt-get install -y libasound2-dev "linux-modules-extra-$(uname -r)"
           sudo modprobe snd-seq-dummy   # pulls in snd-seq core -> creates /dev/snd/seq
           sudo modprobe snd-virmidi
           test -e /dev/snd/seq          # fail loudly if the module didn't load
