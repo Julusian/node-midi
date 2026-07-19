@@ -193,18 +193,17 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
 
-      # The prebuilt addon links against libasound; the ALSA sequencer
-      # (/dev/snd/seq) is needed for RtMidi to open (virtual) ports.
-      - name: Enable ALSA (Linux)
+      # The prebuilt addon links against libasound (libasound.so.2), so the
+      # runtime library must be present for the module to even load.
+      # Note: hosted Linux runners use an Azure cloud kernel built without ALSA
+      # (no snd modules at all), so /dev/snd/seq never exists and RtMidi cannot
+      # open ports here - hence the Linux job only smoke-tests that the addon
+      # loads (see "Run tests" below).
+      - name: Install ALSA runtime (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          # The azure runner kernel ships no sound modules; the ALSA ones live
-          # in the version-matched linux-modules-extra package.
-          sudo apt-get install -y libasound2-dev "linux-modules-extra-$(uname -r)"
-          sudo modprobe snd-seq-dummy   # pulls in snd-seq core -> creates /dev/snd/seq
-          sudo modprobe snd-virmidi
-          test -e /dev/snd/seq          # fail loudly if the module didn't load
+          sudo apt-get install -y libasound2-dev
 
       # Use the previously built prebuilds, so that the tests exercise what will be shipped.
       - name: Download prebuilds
@@ -239,7 +238,14 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
 
+      # Linux runners have no ALSA sequencer, so only assert the addon loads.
+      - name: Run tests (smoke, Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: npm run test:smoke
+
       - name: Run tests
+        if: runner.os != 'Linux'
         shell: bash
         run: |
           # Don't use yarn, because of possible node version incompatibilities

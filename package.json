@@ -12,6 +12,7 @@
     "build:ts": "rimraf dist && tsc -p tsconfig.build.json",
     "rebuild": "node-gyp clean configure build",
     "test": "mocha test/unit/*.js && node test/virtual-loopback-test-automated.js",
+    "test:smoke": "mocha test/unit/message-parser.js && node test/smoke.js",
     "license-validate": "sofie-licensecheck"
   },
   "main": "dist/midi.js",
