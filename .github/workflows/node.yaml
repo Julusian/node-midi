@@ -171,8 +171,8 @@ jobs:
       matrix:
         version: [14, 18, 20, 22, 24, 26]
         os: [
-            # Ubuntu runners don't have alsa enabled
-            # ubuntu-latest, ubuntu-24.04-arm,
+            ubuntu-latest,
+            ubuntu-24.04-arm,
             windows-latest,
             windows-11-arm,
             macos-latest,
@@ -192,6 +192,17 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
+
+      # The prebuilt addon links against libasound; the ALSA sequencer
+      # (/dev/snd/seq) is needed for RtMidi to open (virtual) ports.
+      - name: Enable ALSA (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev
+          sudo modprobe snd-seq-dummy   # pulls in snd-seq core -> creates /dev/snd/seq
+          sudo modprobe snd-virmidi
+          test -e /dev/snd/seq          # fail loudly if the module didn't load
 
       # Use the previously built prebuilds, so that the tests exercise what will be shipped.
       - name: Download prebuilds
