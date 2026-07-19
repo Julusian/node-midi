@@ -1,12 +1,12 @@
 var should = require('should')
 var EventEmitter = require('events').EventEmitter
-var Midi = require('../../dist/midi')
+var { Output } = require('../../dist/output')
 
 describe('midi.Output', function () {
 	var output
 
 	beforeEach(() => {
-		output = new Midi.Output()
+		output = new Output()
 	})
 
 	afterEach(() => {
@@ -15,12 +15,12 @@ describe('midi.Output', function () {
 
 	it('should raise when not called with new', function () {
 		;(function () {
-			Midi.Output()
+			Output()
 		}).should.throw("Class constructor Output cannot be invoked without 'new'")
 	})
 
 	it('should not be an emitter', function () {
-		var output = new Midi.Output()
+		var output = new Output()
 		output.should.not.be.an.instanceOf(EventEmitter)
 	})
 
@@ -84,7 +84,7 @@ describe('midi.Output', function () {
 	})
 
 	describe('.closePort', function () {
-		var output = new Midi.Output()
+		var output = new Output()
 
 		it('allows you to close a port that was not opened', function () {
 			output.closePort()
@@ -92,7 +92,7 @@ describe('midi.Output', function () {
 	})
 
 	describe('.send', function () {
-		var output = new Midi.Output()
+		var output = new Output()
 
 		it('should require an array argument', function () {
 			;(function () {
@@ -102,7 +102,7 @@ describe('midi.Output', function () {
 	})
 
 	describe('.sendMessage', function () {
-		var output = new Midi.Output()
+		var output = new Output()
 
 		it('should require an array argument', function () {
 			;(function () {

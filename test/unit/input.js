@@ -1,10 +1,11 @@
 var should = require('should')
 var EventEmitter = require('events').EventEmitter
-var Midi = require('../../dist/midi')
+var { Input } = require('../../dist/input')
+var { Output } = require('../../dist/output')
 describe('midi.Input', function () {
 	var input
 	beforeEach(() => {
-		input = new Midi.Input()
+		input = new Input()
 	})
 
 	afterEach(() => {
@@ -13,7 +14,7 @@ describe('midi.Input', function () {
 
 	it('should raise when not called with new', function () {
 		;(function () {
-			Midi.Input()
+			Input()
 		}).should.throw("Class constructor Input cannot be invoked without 'new'")
 	})
 
@@ -132,7 +133,7 @@ describe('midi.Input', function () {
 				})
 
 				// Create a virtual loopback MIDI port.
-				var input = new Midi.Input()
+				var input = new Input()
 				input.on('message', function (deltaTime, message) {
 					// Resolve the promise now we have received a MIDI message.
 					resolvePendingPromise(message)
@@ -150,7 +151,7 @@ describe('midi.Input', function () {
 				}, 1500) // Must be under 2000 or Mocha fails us for being too slow.
 
 				// Find the other end of the virtual MIDI port we created above.
-				const output = new Midi.Output()
+				const output = new Output()
 				for (var i = 0; i < output.getPortCount(); ++i) {
 					if (output.getPortName(i).includes(portName)) {
 						output.openPort(i)
