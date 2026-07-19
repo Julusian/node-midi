@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.1](https://github.com/Julusian/node-midi/compare/v3.7.0...v3.7.1) (2026-07-19)
+
+
+### Bug Fixes
+
+* linux armv7 build issues ([7e863b3](https://github.com/Julusian/node-midi/commit/7e863b3c3b2205d3c3e527190ef715511eeb5f0a))
+
 ## [3.7.0](https://github.com/Julusian/node-midi/compare/v3.6.1...v3.7.0) (2026-07-19)
 
 
