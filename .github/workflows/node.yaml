@@ -53,24 +53,24 @@ jobs:
             arch: x64
             is-native: true
             docker-arch: linux/amd64
-            docker-image: node:18-bullseye
+            docker-image: node:20-bullseye
           # linux-libc
           - os: ubuntu-24.04-arm
             arch: arm64
             is-native: false
             docker-arch: linux/arm64
-            docker-image: node:18-bullseye
+            docker-image: node:20-bullseye
           - os: ubuntu-24.04-arm
             arch: arm
             is-native: false
             docker-arch: linux/arm/v7
-            docker-image: node:18-bullseye
+            docker-image: node:20-bullseye
           # linux-musl
           - os: ubuntu-latest
             arch: x64
             is-native: true
             docker-arch: linux/amd64
-            docker-image: node:18-alpine
+            docker-image: node:20-alpine
             libc: musl
 
     steps:
@@ -88,7 +88,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version || '18.x' }}
+          node-version: ${{ matrix.node-version || '20.x' }}
 
       - name: rebuild
         if: ${{ !matrix.docker-arch }}
@@ -163,6 +163,7 @@ jobs:
 
   test-nodejs:
     name: Test Node.JS ${{matrix.version}} on ${{ matrix.os }}
+    needs: bundle
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -177,8 +178,6 @@ jobs:
             macos-latest,
           ]
         exclude:
-          - os: ubuntu-24.04-arm
-            version: 14
           - os: windows-11-arm
             version: 14
           - os: windows-11-arm
@@ -194,33 +193,38 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
 
-      - name: Install Linux dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libasound2-dev
+      # Use the previously built prebuilds, so that the tests exercise what will be shipped.
+      - name: Download prebuilds
+        uses: actions/download-artifact@v7
+        with:
+          name: all-prebuilds
+          path: prebuilds
 
-      # Build with latest Node.js to have the latest build tools
-      - name: Setup Node.js
+      # Build the TypeScript with a modern Node.js.
+      - name: Setup Node.js (build)
         uses: actions/setup-node@v6
         with:
-          node-version: 22.x
+          node-version: 20.x
 
-      - name: Setup Environment
+      - name: Build package
         shell: bash
         run: |
           corepack enable
 
+          # The native addon comes from the downloaded prebuild, so the install
+          # lifecycle's pkg-prebuilds-verify passes and node-gyp never runs.
           yarn install
 
-          yarn build
-        env:
-          npm_config_build_from_source: true
+          # The runtime loader prefers build/ over prebuilds/, so make sure no
+          # build/ exists - this guarantees the tests exercise the prebuild.
+          rm -rf build
 
-      - name: Setup Node.js
+          yarn build:ts
+
+      - name: Setup Node.js ${{ matrix.version }}
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.version}}
+          node-version: ${{ matrix.version }}
 
       - name: Run tests
         shell: bash
