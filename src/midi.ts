@@ -18,6 +18,11 @@ import { Notes } from './notes.js'
 /** Message names, including CCs */
 import { Messages } from './messages.js'
 
+import { MidiMessageParser } from './message-parser.js'
+import type { MidiMessageParserEvents } from './message-parser.js'
+
+export type { MidiEventInfo } from './message-parser.js'
+
 const midi = pkgPrebuilds(path.join(__dirname, '..'), bindingOptions)
 
 /**
@@ -28,91 +33,31 @@ export type MidiMessage = number[]
 /** @deprecated */
 export type MidiCallback = (deltaTime: number, message: MidiMessage) => void
 
-export interface MidiEventInfo {
-	channel: number
-	deltaTime: number
-}
-
-export type MidiInputEvents = {
+/** The events emitted by {@link Input}: the parser's parsed events plus the raw passthroughs. */
+export type MidiInputEvents = MidiMessageParserEvents & {
 	message: [deltaTime: number, message: MidiMessage]
 	messageBuffer: [deltaTime: number, message: Buffer]
-
-	sysex: [bytes: Buffer]
-
-	noteon: [note: number, velocity: number, info: MidiEventInfo]
-	noteoff: [note: number, velocity: number, info: MidiEventInfo]
-	cc: [param: number, value: number, info: MidiEventInfo]
 }
 
 export class Input extends EventEmitter<MidiInputEvents> {
 	readonly #input: any
-
-	#pendingSysexBuffer: Buffer | null = null
+	readonly #parser = new MidiMessageParser()
 
 	constructor() {
 		super()
 
+		// Forward the parser's parsed events out of the Input itself
+		this.#parser.on('sysex', (bytes) => this.emit('sysex', bytes))
+		this.#parser.on('noteon', (note, velocity, info) => this.emit('noteon', note, velocity, info))
+		this.#parser.on('noteoff', (note, velocity, info) => this.emit('noteoff', note, velocity, info))
+		this.#parser.on('cc', (param, value, info) => this.emit('cc', param, value, info))
+
 		this.#input = new midi.Input((deltaTime: number, message: Buffer) => {
+			// The raw message passthrough is Input's own concern...
 			this.emit('messageBuffer', deltaTime, message)
 			this.emit('message', deltaTime, Array.from(message.values()))
-
-			if (message.byteLength === 0) return
-			const lastByte = message[message.byteLength - 1]
-
-			// a long sysex can be sent in multiple chunks, depending on the RtMidi buffer size
-			let proceed = true
-			if (this.#pendingSysexBuffer && message.byteLength > 0) {
-				// If first byte is valid midi (7bit data)
-				if (message[0] < 0x80) {
-					this.#pendingSysexBuffer = Buffer.concat([this.#pendingSysexBuffer, message])
-					if (lastByte === 0xf7) {
-						this.emit('sysex', this.#pendingSysexBuffer)
-						this.#pendingSysexBuffer = null
-					}
-					proceed = false
-				} else {
-					// ignore invalid sysex messages
-					this.#pendingSysexBuffer = null
-				}
-			}
-			if (proceed) {
-				// Sysex
-				if (message[0] === 0xf0) {
-					if (lastByte === 0xf7) {
-						// Full
-						this.emit('sysex', message)
-					} else {
-						// Partial
-						this.#pendingSysexBuffer =
-							// eslint-disable-next-line n/no-unsupported-features/node-builtins
-							typeof Buffer.copyBytesFrom === 'function' ? Buffer.copyBytesFrom(message) : Buffer.concat([message]) // Clone buffer
-					}
-					return
-				}
-
-				const channel = message[0] & 0x0f
-				const type = message[0] & 0xf0
-				if (type === Messages.NOTE_ON) {
-					this.emit('noteon', message[1], message[2], { channel, deltaTime })
-				} else if (type === Messages.NOTE_OFF) {
-					this.emit('noteoff', message[1], message[2], { channel, deltaTime })
-				} else if (type === Messages.SET_PARAMETER) {
-					this.emit('cc', message[1], message[2], { channel, deltaTime })
-				} else {
-					// Future: more message types
-					//
-					// const data = this.parseMessage(message)
-					// if (data.type === 'sysex' && lastByte !== 0xf7) {
-					// 	this.#pendingSysexBuffer = Buffer.copyBytesFrom(message) // Clone buffer
-					// } else {
-					// 	data.msg._type = data.type // easy access to message type
-					// 	this.emit(data.type, data.msg)
-					// 	if (data.type === 'mtc') {
-					// 		this.parseMtc(data.msg)
-					// 	}
-					// }
-				}
-			}
+			// ...then the parser turns it into the higher-level events.
+			this.#parser.handleMessage(deltaTime, message)
 		})
 	}
 
