@@ -89,8 +89,15 @@ export function createReadStream(input?: Input): Stream.Readable {
 		},
 	})
 
-	input.on('messageBuffer', (_deltaTime, packet) => {
+	const onMessage = (_deltaTime: number, packet: Buffer) => {
+		// Once the stream is destroyed, pushing would emit an error
+		if (stream.destroyed) return
 		stream.push(packet)
+	}
+	input.on('messageBuffer', onMessage)
+
+	stream.once('close', () => {
+		input.off('messageBuffer', onMessage)
 	})
 
 	return stream

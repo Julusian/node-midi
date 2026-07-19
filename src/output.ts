@@ -65,8 +65,12 @@ export function createWriteStream(output?: Output): Stream.Writable {
 			if (!Buffer.isBuffer(chunk)) {
 				chunk = Buffer.from(chunk)
 			}
-			output.sendMessage(chunk)
-			callback()
+			try {
+				output.sendMessage(chunk)
+				callback()
+			} catch (e) {
+				callback(e as Error)
+			}
 		},
 	})
 
