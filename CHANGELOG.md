@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.2](https://github.com/Julusian/node-midi/compare/v3.7.1...v3.7.2) (2026-07-19)
+
+
+### Bug Fixes
+
+* ci publish step ([8c5c6b4](https://github.com/Julusian/node-midi/commit/8c5c6b4462c723c486affdf73d70130643a8cab7))
+
 ## [3.7.1](https://github.com/Julusian/node-midi/compare/v3.7.0...v3.7.1) (2026-07-19)
 
 
