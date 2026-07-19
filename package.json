@@ -1,6 +1,6 @@
 {
   "name": "@julusian/midi",
-  "version": "3.7.1",
+  "version": "3.7.2",
   "scripts": {
     "prepare": "husky",
     "prepack": "yarn build:ts",
