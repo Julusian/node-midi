@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.0](https://github.com/Julusian/node-midi/compare/v3.7.2...v3.8.0) (2026-07-28)
+
+
+### Features
+
+* add '@julusian/midi/lazy' export to allow native module load errors to be thrown at usage time instead of load time ([d45b88e](https://github.com/Julusian/node-midi/commit/d45b88e724493ddd6336dca7de8db5dccb30a4fa))
+
 ## [3.7.2](https://github.com/Julusian/node-midi/compare/v3.7.1...v3.7.2) (2026-07-19)
 
 
