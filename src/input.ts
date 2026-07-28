@@ -2,7 +2,7 @@ import Stream from 'stream'
 import { EventEmitter } from 'events'
 import { MidiMessageParser } from './message-parser.js'
 import type { MidiMessageParserEvents } from './message-parser.js'
-import { midi } from './native.js'
+import { getNativeBinding } from './native.js'
 
 /**
  * An array of numbers corresponding to the MIDI bytes: [status, data1, data2].
@@ -29,6 +29,7 @@ export class Input extends EventEmitter<MidiInputEvents> {
 		this.#parser.on('noteoff', (note, velocity, info) => this.emit('noteoff', note, velocity, info))
 		this.#parser.on('cc', (param, value, info) => this.emit('cc', param, value, info))
 
+		const midi = getNativeBinding()
 		this.#input = new midi.Input((deltaTime: number, message: Buffer) => {
 			// The raw message passthrough is Input's own concern...
 			this.emit('messageBuffer', deltaTime, message)
@@ -39,7 +40,7 @@ export class Input extends EventEmitter<MidiInputEvents> {
 	}
 
 	static getPortNames(): string[] {
-		return midi.getInputPortNames()
+		return getNativeBinding().getInputPortNames()
 	}
 
 	closePort(): void {

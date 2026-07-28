@@ -1,15 +1,16 @@
 import Stream from 'stream'
-import { midi } from './native.js'
+import { getNativeBinding } from './native.js'
 
 export class Output {
 	readonly #output: any
 
 	constructor() {
+		const midi = getNativeBinding()
 		this.#output = new midi.Output()
 	}
 
 	static getPortNames(): string[] {
-		return midi.getOutputPortNames()
+		return getNativeBinding().getOutputPortNames()
 	}
 
 	closePort(): void {

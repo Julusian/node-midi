@@ -17,6 +17,17 @@
   },
   "main": "dist/midi.js",
   "types": "dist/midi.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/midi.d.ts",
+      "default": "./dist/midi.js"
+    },
+    "./lazy": {
+      "types": "./dist/lazy.d.ts",
+      "default": "./dist/lazy.js"
+    },
+    "./package.json": "./package.json"
+  },
   "description": "MIDI hardware IO",
   "author": {
     "name": "Julian Waller",
