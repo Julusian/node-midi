@@ -180,6 +180,39 @@ const stream2 = midi.createWriteStream(output)
 require('fs').createReadStream('something.bin').pipe(stream2)
 ```
 
+### Lazy loading
+
+Importing `@julusian/midi` loads the native addon immediately, and throws if it
+cannot be loaded (for example on a Linux machine without `libasound`). This means
+that even the pure-JS `Constants` are unusable in that situation.
+
+If you only need the constants, or want to defer that failure, import
+`@julusian/midi/lazy` instead. Importing it never throws just because the native
+binding is unavailable — the error is only raised when the native code is actually
+needed: on the first `Input`/`Output` construction, or via an explicit
+`verifyLibraryLoaded()` call.
+
+```js
+const midi = require('@julusian/midi/lazy')
+
+// Always available, even if the native binding failed to load:
+console.log(midi.Constants.Messages.NOTE_ON)
+
+// Optionally check up-front whether the native library is usable.
+// Throws the underlying load error if it is not.
+try {
+	midi.verifyLibraryLoaded()
+} catch (e) {
+	console.error('MIDI is not available on this system:', e)
+}
+
+// Constructing an Input/Output performs the same check, and throws if unavailable.
+const input = new midi.Input()
+```
+
+The `@julusian/midi/lazy` entry exposes exactly the same API as `@julusian/midi`,
+plus the `verifyLibraryLoaded()` helper (which is also available on the main entry).
+
 ## References
 
 - https://www.music.mcgill.ca/~gary/rtmidi/
