@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.1](https://github.com/Julusian/node-midi/compare/v3.8.0...v3.8.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* resolve native prebuilds relative to package root for bundler compatibility ([#66](https://github.com/Julusian/node-midi/issues/66)) ([8b38eb3](https://github.com/Julusian/node-midi/commit/8b38eb32b9b15ac8499bd266f8c7f2d0243dad41))
+
 ## [3.8.0](https://github.com/Julusian/node-midi/compare/v3.7.2...v3.8.0) (2026-07-28)
 
 
