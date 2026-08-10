@@ -93,6 +93,7 @@
   "files": [
     "binding.gyp",
     "binding-options.js",
+    "load-native.js",
     "src-cpp/",
     "dist/",
     "vendor/rtmidi/RtMidi.cpp",
