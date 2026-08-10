@@ -1,9 +1,6 @@
-import pkgPrebuilds from 'pkg-prebuilds'
-import path from 'path'
-
 // @ts-expect-error No types
 // eslint-disable-next-line n/no-missing-import
-import bindingOptions from '../binding-options.js'
+import loadNativeBinding from '../load-native.js'
 
 let loadedBinding: any = undefined
 let loadError: Error | undefined = undefined
@@ -14,7 +11,7 @@ let loadError: Error | undefined = undefined
 // dependencies (e.g. libasound) are unavailable. The error is re-thrown lazily,
 // only when the native binding is actually needed.
 try {
-	loadedBinding = pkgPrebuilds(path.join(__dirname, '..'), bindingOptions)
+	loadedBinding = loadNativeBinding()
 } catch (e) {
 	// Normalise to an Error so `loadError` is always truthy when the load failed,
 	// even if something falsy was thrown.
