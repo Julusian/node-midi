@@ -215,8 +215,7 @@ plus the `verifyLibraryLoaded()` helper (which is also available on the main ent
 
 ## References
 
-- https://www.music.mcgill.ca/~gary/rtmidi/
-- http://syskall.com/how-to-write-your-own-native-nodejs-extension
+- https://caml.music.mcgill.ca/~gary/rtmidi/
 
 ## Maintainers
 
