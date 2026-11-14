@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/Julusian/node-midi/compare/v3.8.1...v3.9.0) (2026-11-14)
+
+
+### Features
+
+* Update RtMidi to 6.1.0 ([#74](https://github.com/Julusian/node-midi/issues/74)) ([1225d2b](https://github.com/Julusian/node-midi/commit/1225d2b16f6b980a4fb1c7c55bf338a1b4e8353e))
+
 ## [3.8.1](https://github.com/Julusian/node-midi/compare/v3.8.0...v3.8.1) (2026-08-10)
 
 
